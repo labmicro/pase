@@ -6,6 +6,7 @@ project:
 
 environ:
   MUJU: ./muju
+  USB_LOCATION: 1-1.3
 
 builder:
   command: make
@@ -14,9 +15,8 @@ builder:
 
 monitor:
   command: /usr/bin/openocd
-  config: ${job.abspath("openocd/config.file")}
-  port: 8888
-  template: ${job.command} -c "gdb_port ${job.port}" -f ${job.config}
+  config: ${job.environ["MUJU"]}/external/base/mcu/lpc4337-m4/openocd/openocd.cfg
+  template: ${job.command} -c "adapter usb location ${job.environ["MUJU"]}" -f ${job.config}
 
 debugger:
   command: arm-none-eabi-gdb
