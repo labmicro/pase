@@ -5,8 +5,13 @@ pipeline {
   stages {
     stage('Unit test') {
       steps {
-        sh 'ceedling clobber && ceedling gcov:all && ceedling utils:gcov'
-        archiveArtifacts(artifacts: 'build/artifacts/gcov/*', onlyIfSuccessful: true)
+        sh 'ceedling clobber gcov:all utils:gcov'
+      }
+      post {
+        always {
+          xunit tools: [Custom(customXSL: 'unity.xsl', pattern: 'build/artifacts/gcov/report.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+          publishCoverage adapters: [coberturaAdapter('build/artifacts/gcov/GcovCoverageResults.xml')]
+        }
       }
     }
 
