@@ -19,6 +19,11 @@ pipeline {
       steps {
         sh 'pytest'
       }
+      post {
+        always {
+          xunit tools: [JUnit(pattern: 'build/artifacts/results.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+        }
+      }
     }
 
     stage('Build') {
