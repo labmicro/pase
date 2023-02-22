@@ -10,7 +10,7 @@ pipeline {
       post {
         always {
           xunit tools: [Custom(customXSL: 'test/support/unity.xsl', pattern: 'build/artifacts/gcov/report.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
-          publishCoverage adapters: [coberturaAdapter('build/artifacts/gcov/GcovCoverageResults.xml')]
+          publishCoverage adapters: [cobertura('build/artifacts/gcov/GcovCoverageCobertura.xml')]
         }
       }
     }
