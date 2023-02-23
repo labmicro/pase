@@ -29,7 +29,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'make clean && make all'
-        archiveArtifacts(artifacts: 'build/bin/pase.elf, build/bin/pase.map', onlyIfSuccessful: true)
+        archiveArtifacts(artifacts: 'build/bin/pase*.elf, build/bin/pase*.map', onlyIfSuccessful: true)
       }
     }
 
