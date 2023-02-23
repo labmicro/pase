@@ -50,9 +50,9 @@ def exectute(result):
 
 def test_turn_on_red_led_on_press_left_key():
     exectute(dut.key_left.clear())
-    exectute(dut.wait(0, 200, [dut.led_red.has_falling], dut.key_left.set))
+    exectute(dut.wait(0, 200, [dut.led_green.has_falling], dut.key_rigth.set))
 
 
 def test_turn_on_red_led_on_release_left_key():
     exectute(dut.key_left.set())
-    exectute(dut.wait(0, 200, [dut.led_red.has_rising], dut.key_left.clear))
+    exectute(dut.wait(0, 200, [dut.led_green.has_rising], dut.key_rigth.clear))
