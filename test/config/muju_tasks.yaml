@@ -1,0 +1,29 @@
+---
+project:
+  name: pase
+  path: .
+  binary: ./build/bin/project.elf
+
+environ:
+  MUJU: ./muju
+  USB_LOCATION: 1-1.3
+
+builder:
+  command: make
+  template: ${job.command} ${job.action} MUJU=${job.environ["MUJU"]}
+  verbose: True
+
+monitor:
+  command: /usr/bin/openocd
+  config: ${job.environ["MUJU"]}/external/base/mcu/lpc4337-m4/openocd/openocd.cfg
+  template: ${job.command} -c "adapter usb location ${job.environ["MUJU"]}" -f ${job.config}
+
+debugger:
+  command: arm-none-eabi-gdb
+  execute: target extended-remote localhost:${job.monitor.port}
+  template: ${job.command} ${job.abspath(job.project.binary)} --ex "${job.execute}"
+
+flasher:
+  command: make
+  template: ${job.command} download MUJU=${job.environ["MUJU"]}
+...
