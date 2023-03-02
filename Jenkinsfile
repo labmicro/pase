@@ -2,7 +2,9 @@ pipeline {
     agent none
     stages {
         stage('Static analyze') {
-            agent label: 'cppcheck'
+            agent {
+                label: 'cppcheck'
+            }
             steps {
                 sh script: 'make check', label: 'Analize with Cppcheck'
             }
@@ -13,7 +15,9 @@ pipeline {
             }
         }
         stage('Unit tests') {
-            agent label: 'ceedling'
+            agent {
+                label: 'ceedling'
+            }
             steps {
                 sh  script: 'ceedling clobber gcov:all utils:gcov',  label: 'Run unit tests with ceedling'
             }
