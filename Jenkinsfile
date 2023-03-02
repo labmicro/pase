@@ -1,37 +1,40 @@
 pipeline {
-  agent {
-    label 'arm'
-  }
-  stages {
-    stage('Unit test') {
-      steps {
-        sh 'ceedling clobber gcov:all utils:gcov'
-      }
-      post {
-        always {
-          xunit tools: [Custom(customXSL: 'test/support/unity.xsl', pattern: 'build/artifacts/gcov/report.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
-          publishCoverage adapters: [cobertura('build/artifacts/gcov/GcovCoverageCobertura.xml')]
+    agent none
+    stages {
+        stage('Format check') {
+            agent {
+                label 'precommit'
+            }
+            steps {
+                sh 'pre-commit run --all-files --show-diff-on-failure'
+            }
         }
-      }
-    }
-
-    stage('System test') {
-      steps {
-        sh 'pytest'
-      }
-      post {
-        always {
-          xunit tools: [JUnit(pattern: 'build/artifacts/results.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+        stage('Static analyze') {
+            agent {
+                label 'cppcheck'
+            }
+            steps {
+                sh 'make check'
+            }
+            post {
+                always {
+                    publishCppcheck pattern: 'build/artifacts/cppcheck.xml'
+                }
+            }
         }
-      }
+        stage('Unit test') {
+            agent {
+                label 'ceedling'
+            }
+            steps {
+                sh 'ceedling gcov:all utils:gcov'
+            }
+            post {
+                always {
+                    xunit tools: [Custom(customXSL: 'test/support/unity.xsl', pattern: 'build/artifacts/gcov/report.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+                    publishCoverage adapters: [cobertura('build/artifacts/gcov/GcovCoverageCobertura.xml')]
+                }
+            }
+        }
     }
-
-    stage('Build') {
-      steps {
-        sh 'make clean && make all'
-        archiveArtifacts(artifacts: 'build/bin/pase*.elf, build/bin/pase*.map', onlyIfSuccessful: true)
-      }
-    }
-
-  }
 }
