@@ -4,6 +4,7 @@ RUN apt-get update && \
     gcc \
     cppcheck \
     gcovr \
+    libc-dev \
     make \
     ruby && \
     apt-get clean && \

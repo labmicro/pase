@@ -56,9 +56,8 @@ pipeline {
                     stage('System tests') {
                         steps {
                             sh script: 'make download', label: 'Write binary to target'
-                            sh script: 'make download', label: 'Write binary to target'
-                            sh script: 'openocd -c "adapter usb location ${env.USB_LOCATION}" -f ${env.DUT_OCD_CFG} -c "init" -c "reset run" -c "shutdown"', label: "Reset DUT device"
-                            sh script: 'openocd -c "adapter usb location ${env.ATE_LOCATION}" -f ${env.ATE_OCD_CFG} -c "init" -c "reset run" -c "shutdown"', label: "Reset ATE device"
+                            sh script: 'openocd -c "adapter usb location $USB_LOCATION" -f $DUT_OCD_CFG -c "init" -c "reset run" -c "shutdown"', label: "Reset DUT device"
+                            sh script: 'openocd -c "adapter usb location $ATE_LOCATION" -f $ATE_OCD_CFG -c "init" -c "reset run" -c "shutdown"', label: "Reset ATE device"
                             sh script: 'pytest', label: 'Run system tests with PyTest'
                         }
                         post {

@@ -18,5 +18,7 @@ RUN apt-get update && \
     libnewlib-dev \
     make \
     openocd \
+    python3-pip \
     usbutils && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip install pytest siru
