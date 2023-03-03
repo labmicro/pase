@@ -33,7 +33,7 @@ pipeline {
                 axes {
                     axis {
                         name 'BOARD'
-                        values 'EDU-CIAA-NXP'
+                        values 'edu-ciaa-nxp'
                     }
                 }
                 agent {
@@ -44,16 +44,18 @@ pipeline {
                     ATE_LOCATION = AteLocation(env.BOARD)
                     DUT_OCD_CFG = OpenOCD(env.BOARD)
                     ATE_OCD_CFG = OpenOCD(env.BOARD)
+                    VERBOSE = 'y'
                 }
                 stages {
                     stage('Compilation') {
                         steps {
-                            sh script: 'make clean && make all',  label: 'Build target binary'
+                            sh script: 'make all',  label: 'Build target binary'
                             archiveArtifacts(artifacts: 'build/bin/pase*.elf, build/bin/pase*.map', onlyIfSuccessful: true)
                         }
                     }
                     stage('System tests') {
                         steps {
+                            sh script: 'make download', label: 'Write binary to target'
                             sh script: 'make download', label: 'Write binary to target'
                             sh script: 'openocd -c "adapter usb location ${env.USB_LOCATION}" -f ${env.DUT_OCD_CFG} -c "init" -c "reset run" -c "shutdown"', label: "Reset DUT device"
                             sh script: 'openocd -c "adapter usb location ${env.ATE_LOCATION}" -f ${env.ATE_OCD_CFG} -c "init" -c "reset run" -c "shutdown"', label: "Reset ATE device"
@@ -72,19 +74,19 @@ pipeline {
 }
 
 def DutLocation(board) {
-    if ("EDU-CIAA-NXP".equals(board)) {
+    if ("edu-ciaa-nxp".equals(board)) {
         return "1-1.3";
     }
 }
 
 def AteLocation(board) {
-    if ("EDU-CIAA-NXP".equals(board)) {
+    if ("edu-ciaa-nxp".equals(board)) {
         return "1-1.4";
     }
 }
 
 def OpenOCD(board) {
-    if ("EDU-CIAA-NXP".equals(board)) {
+    if ("edu-ciaa-nxp".equals(board)) {
         return "muju/external/base/mcu/lpc4337-m4/openocd/openocd.cfg";
     }
 }
