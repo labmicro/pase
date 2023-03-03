@@ -27,6 +27,9 @@
 # SPDX-FileCopyrightText: 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
 ##################################################################################################
 
+import os
+import serial.tools.list_ports
+
 from pytest import fixture
 from siru.dut import DUT
 from siru.preat import Result
@@ -35,13 +38,13 @@ from siru.preat import Result
 @fixture(scope="module", autouse=True)
 def fixture():
     global dut
+
     dut = DUT(yaml="test/config/dut_edu_ciaa_nxp.yaml")
-
-    dut.builder.verbose = True
-    assert dut.build()
-
-    dut.flasher.verbose = True
-    assert dut.flash()
+    location = os.environ.get("ATE_LOCATION", None)
+    ports = serial.tools.list_ports.comports()
+    ports = [port.device for port in ports if str(port.location).startswith(location)]
+    if ports:
+        dut.ate.url = ports[0]
 
 
 def exectute(result):
