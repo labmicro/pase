@@ -42,9 +42,18 @@ def fixture():
     dut = DUT(yaml="test/config/dut_edu_ciaa_nxp.yaml")
     location = os.environ.get("ATE_LOCATION", None)
     ports = serial.tools.list_ports.comports()
+    print(
+        f"List of USB ports: "
+        + ",".join([f"{port.device}: {port.location}" for port in ports])
+    )
     ports = [port.device for port in ports if str(port.location).startswith(location)]
+    print(
+        f"List of filtered ports: "
+        + ",".join([f"{port.device}: {port.location}" for port in ports])
+    )
     if ports:
         dut.ate.url = ports[0]
+    print(f"Using ATE at {dut.ate.url}")
 
 
 def exectute(result):
