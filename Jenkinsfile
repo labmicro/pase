@@ -41,7 +41,7 @@ pipeline {
                 }
                 environment {
                     def config = Configuracion(env.NODE_NAME, env.BOARD)
-                    PROJECT_NAME = env.BOARD
+                    PROJECT_NAME = "${env.BOARD}"
                     USB_LOCATION = "${config['dut']['usb']}"
                     ATE_LOCATION = "${config['ate']['usb']}"
                     DUT_OCD_CFG = "${config['dut']['openocd']}"
