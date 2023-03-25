@@ -52,7 +52,7 @@ pipeline {
                 stages {
                     stage('Compilation') {
                         steps {
-                            sh script: 'make all',  label: 'Build target binary'
+                            sh script: 'make clean all',  label: 'Build target binary'
                             archiveArtifacts(artifacts: 'build/bin/pase*.elf, build/bin/pase*.map', onlyIfSuccessful: true)
                         }
                     }
