@@ -52,8 +52,9 @@ pipeline {
                 stages {
                     stage('Compilation') {
                         steps {
-                            sh script: 'make clean all',  label: 'Build target binary'
-                            archiveArtifacts(artifacts: 'build/bin/pase*.elf, build/bin/pase*.map', onlyIfSuccessful: true)
+                            sh script: 'make clean all', label: 'Build target binary'
+                            sh script: 'rm build/bin/project.elf', label: 'Remove debug binary'
+                            archiveArtifacts(artifacts: 'build/bin/*.elf, build/bin/*.map', onlyIfSuccessful: true)
                         }
                     }
                     stage('System tests') {
