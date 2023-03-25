@@ -33,7 +33,7 @@ pipeline {
                 axes {
                     axis {
                         name 'BOARD'
-                        values 'edu-ciaa-nxp' 'blue-pill'
+                        values 'edu-ciaa-nxp', 'blue-pill'
                     }
                 }
                 agent {
