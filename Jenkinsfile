@@ -33,7 +33,7 @@ pipeline {
                 axes {
                     axis {
                         name 'BOARD'
-                        values 'edu-ciaa-nxp'
+                        values 'edu-ciaa-nxp' 'blue-pill'
                     }
                 }
                 agent {
@@ -41,10 +41,12 @@ pipeline {
                 }
                 environment {
                     def config = Configuracion(env.NODE_NAME, env.BOARD)
+                    PROJECT_NAME = env.BOARD
                     USB_LOCATION = "${config['dut']['usb']}"
                     ATE_LOCATION = "${config['ate']['usb']}"
                     DUT_OCD_CFG = "${config['dut']['openocd']}"
                     ATE_OCD_CFG = "${config['ate']['openocd']}"
+                    TEST_CFG = "${config['dut']['yaml']}"
                     VERBOSE = 'y'
                 }
                 stages {

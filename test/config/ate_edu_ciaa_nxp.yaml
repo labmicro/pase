@@ -3,15 +3,7 @@ name: ate-edu-ciaa-nxp
 board: edu-ciaa-nxp
 
 server:
-  url: /dev/ttyUSB0
-  # type: serial
-  # serial_port: HAL_SCI_USART3
-  # txd_pin: HAL_PIN_P2_3
-  # rxd_pin: HAL_PIN_P2_4
-
-  # serial_port: HAL_SCI_USART2
-  # txd_pin: HAL_PIN_P7_1
-  # txd_pin: HAL_PIN_P7_2
+  url: /dev/null
 
 digital_outputs:
   - name: OUT_1

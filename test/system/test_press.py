@@ -39,7 +39,8 @@ from siru.preat import Result
 def fixture():
     global dut
 
-    dut = DUT(yaml="test/config/dut_edu_ciaa_nxp.yaml")
+    config = os.environ.get("TEST_CFG", "test/config/dut_edu_ciaa_nxp.yaml")
+    dut = DUT(yaml=config)
     if "ATE_LOCATION" in os.environ:
         location = os.environ["ATE_LOCATION"]
         ports = serial.tools.list_ports.comports()
@@ -48,7 +49,7 @@ def fixture():
         ]
         if ports:
             dut.ate.server.url = ports[0]
-    print(f"Using ATE at {dut.ate.server.url}")
+    print(f"Testing DUT {dut.name} with ATE {dut.ate.name} at {dut.ate.server.url}")
 
 
 def exectute(result):

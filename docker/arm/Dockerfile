@@ -13,7 +13,6 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     binutils-arm-none-eabi \
     gcc-arm-none-eabi \
-    libstdc++-arm-none-eabi-newlib \
     libnewlib-arm-none-eabi \
     libnewlib-dev \
     make \

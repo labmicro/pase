@@ -41,20 +41,20 @@ extern "C" {
 
 /* === Public macros definitions =============================================================== */
 
-#define GPIO_CHANEL_RED   HAL_GPIO2_1
-#define GPIO_CHANEL_GREEN HAL_GPIO2_2
-#define GPIO_CHANEL_BLUE  HAL_GPIO2_3
+#define GPIO_CHANEL_RED   HAL_GPIO_PA10
+#define GPIO_CHANEL_GREEN HAL_GPIO_PA9
+#define GPIO_CHANEL_BLUE  HAL_GPIO_PA8
 
-#define GPIO_LED_RED      HAL_GPIO1_8
-#define GPIO_LED_YELLOW   HAL_GPIO3_12
-#define GPIO_LED_GREEN    HAL_GPIO3_13
+#define GPIO_LED_RED      HAL_GPIO_PB9
+#define GPIO_LED_YELLOW   HAL_GPIO_PB8
+#define GPIO_LED_GREEN    HAL_GPIO_PB5
 
-#define GPIO_KEY_LEFT     HAL_GPIO3_14
-#define GPIO_KEY_UP       HAL_GPIO5_4
-#define GPIO_KEY_RIGHT    HAL_GPIO5_3
-#define GPIO_KEY_DOWN     HAL_GPIO5_8
-#define GPIO_KEY_ACCEPT   HAL_GPIO5_9
-#define GPIO_KEY_CANCEL   HAL_GPIO2_0
+#define GPIO_KEY_LEFT     HAL_GPIO_PB4
+#define GPIO_KEY_UP       HAL_GPIO_PB3
+#define GPIO_KEY_RIGHT    HAL_GPIO_PB15
+#define GPIO_KEY_DOWN     HAL_GPIO_PB14
+#define GPIO_KEY_ACCEPT   HAL_GPIO_PB13
+#define GPIO_KEY_CANCEL   HAL_GPIO_PB12
 
 /* === Public data type declarations =========================================================== */
 

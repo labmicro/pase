@@ -36,6 +36,8 @@ SPDX-License-Identifier: MIT
 
 #if defined(EDU_CIAA_NXP)
 #include "edu-ciaa-nxp.h"
+#elif defined(BLUE_PILL)
+#include "blue-pill.h"
 #else
 #error "This program does not have support for the selected board"
 #endif
