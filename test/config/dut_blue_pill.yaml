@@ -1,6 +1,6 @@
 ---
 name: ate-blue-pill-nxp
-ate: !include ate-blue-pill.yaml
+ate: !include ate_blue_pill.yaml
 tasks: !include muju_tasks.yaml
 
 digital_inputs:
