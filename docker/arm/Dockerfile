@@ -1,5 +1,5 @@
 FROM jenkins/ssh-agent:latest
-RUN usermod -G plugdev jenkins && \
+RUN usermod -a -G plugdev,dialout jenkins && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
     ca-certificates \
