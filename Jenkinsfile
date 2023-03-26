@@ -63,7 +63,7 @@ pipeline {
                             sh script: 'openocd -c "adapter usb location $USB_LOCATION" -f $DUT_OCD_CFG -c "init" -c "reset run" -c "shutdown"', label: "Reset DUT device"
                             script {
                                 if (env.BOARD == 'edu-ciaa-nxp') {
-                                    openocd -c "adapter usb location $ATE_LOCATION" -f "$ATE_OCD_CFG" -c "init" -c "reset run" -c "shutdown"
+                                    sh 'openocd -c "adapter usb location $ATE_LOCATION" -f "$ATE_OCD_CFG" -c "init" -c "reset run" -c "shutdown"'
                                 }
                             }
                             // sh script: 'openocd -c "adapter usb location $ATE_LOCATION" -f $ATE_OCD_CFG -c "init" -c "reset run" -c "shutdown"', label: "Reset ATE device"
