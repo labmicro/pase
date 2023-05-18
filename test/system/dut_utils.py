@@ -28,46 +28,13 @@
 ##################################################################################################
 
 import os
-
-from pytest import fixture
 from siru.dut import DUT
-from siru.preat import Result
-from dut_utils import create_dut
 
 
-@fixture(scope="module", autouse=True)
-def fixture():
-    global dut
-    dut = create_dut()
+def create_dut():
+    config = os.environ.get("TEST_CFG", "test/config/dut_edu_ciaa_nxp.yaml")
+    dut = DUT(yaml=config)
+    dut.ate.server.url = f"usb://{os.environ.get('ATE_LOCATION','1-1.1')}"
+    print(f"Testing DUT {dut.name} with ATE {dut.ate.name} at {dut.ate.server.url}")
 
-
-def exectute(result):
-    assert result == Result.NO_ERROR
-
-
-def test_turn_on_red_led_on_press_left_key():
-    exectute(dut.key_left.clear())
-    exectute(
-        dut.wait(
-            0,
-            200,
-            [
-                dut.led_green.has_falling,
-            ],
-            dut.key_rigth.set,
-        )
-    )
-
-
-def test_turn_off_red_led_on_release_left_key():
-    exectute(dut.key_left.set())
-    exectute(
-        dut.wait(
-            0,
-            200,
-            [
-                dut.led_red.has_rising,
-            ],
-            dut.key_left.clear,
-        )
-    )
+    return dut

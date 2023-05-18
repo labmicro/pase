@@ -15,8 +15,9 @@ builder:
 
 monitor:
   command: /usr/bin/openocd
-  config: ${job.environ["MUJU"]}/external/base/mcu/lpc4337-m4/openocd/openocd.cfg
-  template: ${job.command} -c "adapter usb location ${job.environ["MUJU"]}" -f ${job.config}
+  config: ${job.environ["$DUT_OCD_CFG"]}
+  template: ${job.command} -f ${job.config} -c "adapter usb location ${job.environ["USB_LOCATION"]}"
+  reset: ${job.command} -c "init" -c "reset run" -c "shutdown" -f ${job.config}
 
 debugger:
   command: arm-none-eabi-gdb
