@@ -47,7 +47,7 @@ def execute(result):
 
 
 def test_turn_on_red_led_on_press_left_key():
-    execute(dut.key_right.clear())
+    execute(dut.key_left.clear())
     dut.restart()
     sleep(0.2)
 
@@ -64,7 +64,7 @@ def test_turn_on_red_led_on_press_left_key():
 
 
 def test_turn_off_red_led_on_release_left_key():
-    execute(dut.key_right.clear())
+    execute(dut.key_left.clear())
     dut.restart()
     sleep(0.2)
 
