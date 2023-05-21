@@ -42,7 +42,7 @@ SPDX-License-Identifier: MIT
 
 #define LED_ON       true
 
-#define LED_FF       false
+#define LED_OFF      false
 
 /* === Private data type declarations ========================================================== */
 
