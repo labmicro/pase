@@ -23,13 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file
- ** @brief Board support hardware abstraction layer implementation
- **
- ** @addtogroup sample-freertos FreeRTOS Sample
- ** @ingroup samples
- ** @brief Samples applications with MUJU Framwork
- ** @{ */
+/**
+ * @file press.c
+ * @brief Press to test task unit test
+ */
 
 /* === Headers files inclusions =============================================================== */
 
@@ -38,6 +35,14 @@ SPDX-License-Identifier: MIT
 #include "mock_hal_gpio.h"
 
 /* === Macros definitions ====================================================================== */
+
+#define KEY_PRESSED  false
+
+#define KEY_RELEASED true
+
+#define LED_ON       true
+
+#define LED_FF       false
 
 /* === Private data type declarations ========================================================== */
 
@@ -58,17 +63,15 @@ hal_gpio_bit_t test_key;
 /* === Public function implementation ========================================================= */
 
 void test_no_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, false);
-    GpioSetState_Expect(test_led, true);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioSetState_Expect(test_led, LED_ON);
     PressLed(test_key, test_led);
 }
 
 void test_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, true);
-    GpioSetState_Expect(test_led, false);
+    GpioGetState_ExpectAndReturn(test_key, KEY_RELEASED);
+    GpioSetState_Expect(test_led, LED_OFF);
     PressLed(test_key, test_led);
 }
 
 /* === End of documentation ==================================================================== */
-
-/** @} End of module definition for doxygen */

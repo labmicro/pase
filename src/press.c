@@ -49,7 +49,7 @@ SPDX-License-Identifier: MIT
 /* === Public function implementation ========================================================= */
 
 void PressLed(hal_gpio_bit_t key, hal_gpio_bit_t led) {
-    if (GpioGetState(key) == 0) {
+    if (!GpioGetState(key)) {
         GpioSetState(led, true);
     } else {
         GpioSetState(led, false);

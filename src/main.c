@@ -72,11 +72,6 @@ int main(void) {
     while (true) {
         Sleep(150);
         PressLed(board->keys->left, board->leds->red);
-        PressLed(board->keys->up, board->leds->yellow);
-        PressLed(board->keys->right, board->leds->green);
-        PressLed(board->keys->cancel, board->led_rgb->red);
-        PressLed(board->keys->down, board->led_rgb->green);
-        PressLed(board->keys->accept, board->led_rgb->blue);
     }
 }
 /* === End of documentation ==================================================================== */

@@ -33,6 +33,7 @@ from pytest import fixture
 from siru.dut import DUT
 from siru.preat import Result
 from dut_utils import create_dut
+from time import sleep
 
 
 @fixture(scope="module", autouse=True)
@@ -41,27 +42,36 @@ def fixture():
     dut = create_dut()
 
 
-def exectute(result):
+def execute(result):
     assert result == Result.NO_ERROR
 
 
 def test_turn_on_red_led_on_press_left_key():
-    exectute(dut.key_left.clear())
-    exectute(
+    execute(dut.key_right.clear())
+    dut.restart()
+    sleep(0.2)
+
+    execute(
         dut.wait(
             0,
             200,
             [
-                dut.led_green.has_falling,
+                dut.led_red.has_falling,
             ],
-            dut.key_rigth.set,
+            dut.key_left.set,
         )
     )
 
 
 def test_turn_off_red_led_on_release_left_key():
-    exectute(dut.key_left.set())
-    exectute(
+    execute(dut.key_right.clear())
+    dut.restart()
+    sleep(0.2)
+
+    execute(dut.key_left.set())
+    sleep(0.2)
+
+    execute(
         dut.wait(
             0,
             200,
