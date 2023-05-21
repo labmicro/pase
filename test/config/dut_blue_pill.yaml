@@ -1,0 +1,33 @@
+---
+name: ate-blue-pill
+ate: !include ate_blue_pill.yaml
+tasks: !include muju_tasks.yaml
+
+digital_inputs:
+  - name: key_left
+    ate_output: OUT_1
+  - name: key_up
+    ate_output: OUT_2
+  - name: key_rigth
+    ate_output: OUT_3
+  - name: key_down
+    ate_output: OUT_4
+  - name: key_accept
+    ate_output: OUT_5
+  - name: key_cancel
+    ate_output: OUT_6
+
+digital_outputs:
+  - name: led_red
+    ate_input: IN_1
+  - name: led_yellow
+    ate_input: IN_2
+  - name: led_green
+    ate_input: IN_3
+  - name: led_rgb_blue
+    ate_input: IN_4
+  - name: led_rgb_red
+    ate_input: IN_5
+  - name: led_rgb_green
+    ate_input: IN_6
+...

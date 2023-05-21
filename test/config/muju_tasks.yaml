@@ -1,0 +1,29 @@
+---
+project:
+  name: pase
+  path: .
+  binary: ./build/bin/project.elf
+
+environ:
+  MUJU: ./muju
+
+builder:
+  command: make
+  template: ${job.command} ${job.action}
+  verbose: True
+
+monitor:
+  command: /usr/bin/openocd
+  config: $DUT_OCD_CFG
+  template: ${job.command} -f ${job.config} -c "adapter usb location $USB_LOCATION"
+  reset: ${job.template} -c "init" -c "reset run" -c "shutdown"
+
+debugger:
+  command: arm-none-eabi-gdb
+  execute: target extended-remote localhost:${job.monitor.port}
+  template: ${job.command} ${job.abspath(job.project.binary)} --ex "${job.execute}"
+
+flasher:
+  command: make
+  template: ${job.command} download
+...

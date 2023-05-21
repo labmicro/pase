@@ -1,0 +1,35 @@
+---
+name: ate-blue-pill
+board: blue-pill
+
+server:
+  url: /dev/null
+
+digital_outputs:
+  - name: OUT_1
+    gpio_bit: HAL_GPIO_PB9
+  - name: OUT_2
+    gpio_bit: HAL_GPIO_PB8
+  - name: OUT_3
+    gpio_bit: HAL_GPIO_PB7
+  - name: OUT_4
+    gpio_bit: HAL_GPIO_PB6
+  - name: OUT_5
+    gpio_bit: HAL_GPIO_PA8
+  - name: OUT_6
+    gpio_bit: HAL_GPIO_PB15
+
+digital_inputs:
+  - name: IN_1
+    gpio_bit: HAL_GPIO_PB3
+  - name: IN_2
+    gpio_bit: HAL_GPIO_PB4
+  - name: IN_3
+    gpio_bit: HAL_GPIO_PB5
+  - name: IN_4
+    gpio_bit: HAL_GPIO_PB14
+  - name: IN_5
+    gpio_bit: HAL_GPIO_PB13
+  - name: IN_6
+    gpio_bit: HAL_GPIO_PB12
+...

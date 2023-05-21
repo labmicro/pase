@@ -3,6 +3,10 @@ repos:
     rev: v2.3.0
     hooks:
     -   id: check-yaml
+        exclude:  ^test/config/dut\w+\.yaml
+    -   id: check-yaml
+        args: [--unsafe]
+        files: ^test/config/dut\w+\.yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
     -   id: check-case-conflict

@@ -1,0 +1,35 @@
+---
+name: ate-edu-ciaa-nxp
+board: edu-ciaa-nxp
+
+server:
+  url: /dev/null
+
+digital_outputs:
+  - name: OUT_1
+    gpio_bit: HAL_GPIO2_6 # P2:26 -> LCD3 -> P4_6
+  - name: OUT_2
+    gpio_bit: HAL_GPIO2_5 # P2:28 -> LCD2 -> P4_5
+  - name: OUT_3
+    gpio_bit: HAL_GPIO2_4 # P2:30 -> LCD1 -> P4_4
+  - name: OUT_4
+    gpio_bit: HAL_GPIO3_7 # P2:38 -> GPIO7 -> P6_11
+  - name: OUT_5
+    gpio_bit: HAL_GPIO3_5 # P2:36 -> GPIO5 -> P6_9
+  - name: OUT_6
+    gpio_bit: HAL_GPIO5_15 # P2:34 -> GPIO3 -> P6_7
+
+digital_inputs:
+  - name: IN_1
+    gpio_bit: HAL_GPIO0_15 # P2:16 -> TXD1 -> P1_20
+  - name: IN_2
+    gpio_bit: HAL_GPIO0_12 # P2:12 -> MDIO -> P1_17
+  - name: IN_3
+    gpio_bit: HAL_GPIO3_0 # P2:29 -> GPIO0 -> P6_1
+  - name: IN_4
+    gpio_bit: HAL_GPIO5_14 # P2:22 -> LCD4 -> P4_10
+  - name: IN_5
+    gpio_bit: HAL_GPIO5_12 # P2:24 -> LCD_RS -> P4_8
+  - name: IN_6
+    gpio_bit: HAL_GPIO5_13 # P2:23 -> LCD_EN -> P4_9
+...
