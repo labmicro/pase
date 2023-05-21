@@ -24,21 +24,17 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /**
- * @file press.c
- * @brief Press to test task unit test
+ * @file test_toggle.c
+ * @brief Press to toggle task unit test
  */
 
 /* === Headers files inclusions =============================================================== */
 
 #include "common.h"
-#include "press.h"
+#include "toggle.h"
 #include "mock_hal_gpio.h"
 
 /* === Macros definitions ====================================================================== */
-
-#define LED_ON  true
-
-#define LED_OFF false
 
 /* === Private data type declarations ========================================================== */
 
@@ -58,16 +54,36 @@ hal_gpio_bit_t test_key;
 
 /* === Public function implementation ========================================================= */
 
-void test_no_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
-    GpioSetState_Expect(test_led, LED_ON);
-    PressLed(test_key, test_led);
+void setUp(void) {
+    // Simulate the key release to set the static variable to a known state
+    GpioGetState_IgnoreAndReturn(KEY_RELEASED);
+    ToggleLed(test_key, test_led);
 }
 
-void test_pressed_key(void) {
+void test_press_key_once_time(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+
+    ToggleLed(test_key, test_led);
+}
+
+void test_press_key_once_time_even_on_long_time_pressed(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+
+    CallInLoop(ToggleLed(test_key, test_led), 3);
+}
+
+void test_press_key_tow_times(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
     GpioGetState_ExpectAndReturn(test_key, KEY_RELEASED);
-    GpioSetState_Expect(test_led, LED_OFF);
-    PressLed(test_key, test_led);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+
+    CallInLoop(ToggleLed(test_key, test_led), 3);
 }
 
 /* === End of documentation ==================================================================== */

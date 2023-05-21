@@ -23,51 +23,44 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
+#ifndef COMMON_H
+#define COMMON_H
+
 /**
- * @file press.c
- * @brief Press to test task unit test
+ * @file common.h
+ * @brief Common definitions to use in unit test procedures
  */
 
 /* === Headers files inclusions =============================================================== */
 
-#include "common.h"
-#include "press.h"
-#include "mock_hal_gpio.h"
+#include "unity.h"
 
-/* === Macros definitions ====================================================================== */
+/* === Cabecera C++ ============================================================================ */
 
-#define LED_ON  true
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#define LED_OFF false
+/* === Public macros definitions =============================================================== */
 
-/* === Private data type declarations ========================================================== */
+#define KEY_PRESSED  false
 
-/* === Private variable declarations =========================================================== */
+#define KEY_RELEASED true
 
-/* === Private function declarations =========================================================== */
+#define CallInLoop(function, TIMES)                                                                \
+    for (int times = 0; times < TIMES; times++)                                                    \
+    function
 
-/* === Public variable definitions ============================================================= */
+/* === Public data type declarations =========================================================== */
 
-hal_gpio_bit_t test_led;
+/* === Public variable declarations ============================================================ */
 
-hal_gpio_bit_t test_key;
-
-/* === Private variable definitions ============================================================ */
-
-/* === Private function implementation ========================================================= */
-
-/* === Public function implementation ========================================================= */
-
-void test_no_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
-    GpioSetState_Expect(test_led, LED_ON);
-    PressLed(test_key, test_led);
-}
-
-void test_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, KEY_RELEASED);
-    GpioSetState_Expect(test_led, LED_OFF);
-    PressLed(test_key, test_led);
-}
+/* === Public function declarations ============================================================ */
 
 /* === End of documentation ==================================================================== */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* COMMON_H */

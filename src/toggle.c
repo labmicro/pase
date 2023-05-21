@@ -24,21 +24,15 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /**
- * @file press.c
- * @brief Press to test task unit test
+ * @file toggle.c
+ * @brief Press to toggle task implementation
  */
 
 /* === Headers files inclusions =============================================================== */
 
-#include "common.h"
-#include "press.h"
-#include "mock_hal_gpio.h"
+#include "toggle.h"
 
 /* === Macros definitions ====================================================================== */
-
-#define LED_ON  true
-
-#define LED_OFF false
 
 /* === Private data type declarations ========================================================== */
 
@@ -48,26 +42,21 @@ SPDX-License-Identifier: MIT
 
 /* === Public variable definitions ============================================================= */
 
-hal_gpio_bit_t test_led;
-
-hal_gpio_bit_t test_key;
-
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
 
 /* === Public function implementation ========================================================= */
 
-void test_no_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
-    GpioSetState_Expect(test_led, LED_ON);
-    PressLed(test_key, test_led);
-}
+void ToggleLed(hal_gpio_bit_t key, hal_gpio_bit_t led) {
+    static bool last_state = false;
+    bool current_state;
 
-void test_pressed_key(void) {
-    GpioGetState_ExpectAndReturn(test_key, KEY_RELEASED);
-    GpioSetState_Expect(test_led, LED_OFF);
-    PressLed(test_key, test_led);
+    current_state = !GpioGetState(key);
+    if ((current_state) && (!last_state)) {
+        GpioBitToggle(led);
+    }
+    last_state = current_state;
 }
 
 /* === End of documentation ==================================================================== */
