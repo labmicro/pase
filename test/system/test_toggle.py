@@ -46,11 +46,17 @@ def execute(result):
     assert result == Result.NO_ERROR
 
 
-def test_turn_led_on_first_key_press():
+def setup_function():
     execute(dut.key_rigth.clear())
     dut.restart()
     sleep(0.2)
 
+
+def teardown_function():
+    execute(dut.key_rigth.clear())
+
+
+def test_turn_led_on_first_key_press():
     execute(
         dut.wait(
             0,
@@ -64,10 +70,6 @@ def test_turn_led_on_first_key_press():
 
 
 def test_turn_led_off_second_key_press():
-    execute(dut.key_rigth.clear())
-    dut.restart()
-    sleep(0.2)
-
     execute(dut.key_rigth.set())
     sleep(0.2)
     execute(dut.key_rigth.clear())
