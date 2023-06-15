@@ -73,7 +73,7 @@ int main(void) {
     while (true) {
         Sleep(150);
         PressLed(board->keys->left, board->leds->red);
-        ToggleLed(board->keys->right, board->leds->yellow);
+        ToggleLed(board->keys->right, board->leds->green);
     }
 }
 /* === End of documentation ==================================================================== */
