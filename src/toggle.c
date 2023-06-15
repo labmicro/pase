@@ -23,14 +23,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file
- ** @brief Application main file
+/**
+ * @file toggle.c
+ * @brief Press to toggle task implementation
  */
 
 /* === Headers files inclusions =============================================================== */
 
-#include "bsp.h"
-#include "press.h"
 #include "toggle.h"
 
 /* === Macros definitions ====================================================================== */
@@ -45,35 +44,19 @@ SPDX-License-Identifier: MIT
 
 /* === Private variable definitions ============================================================ */
 
-static volatile bool new_tick = false;
-
 /* === Private function implementation ========================================================= */
-
-void TickEvent(void * object) {
-    *((bool *)object) = true;
-}
-
-void Sleep(uint32_t delay) {
-    uint32_t elapsed;
-
-    for (elapsed = 0; elapsed < delay; elapsed++) {
-        while (!new_tick) {
-            __asm("WFI");
-        }
-        new_tick = false;
-    }
-}
 
 /* === Public function implementation ========================================================= */
 
-int main(void) {
-    board_t board = BoardCreate();
-    TickStart(TickEvent, (void *)&new_tick, 1000);
+void ToggleLed(hal_gpio_bit_t key, hal_gpio_bit_t led) {
+    static bool last_state = false;
+    bool current_state;
 
-    while (true) {
-        Sleep(150);
-        PressLed(board->keys->left, board->leds->red);
-        ToggleLed(board->keys->right, board->leds->yellow);
+    current_state = !GpioGetState(key);
+    if ((current_state) && (!last_state)) {
+        GpioBitToggle(led);
     }
+    last_state = current_state;
 }
+
 /* === End of documentation ==================================================================== */

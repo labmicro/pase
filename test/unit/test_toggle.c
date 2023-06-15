@@ -23,15 +23,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file
- ** @brief Application main file
+/**
+ * @file test_toggle.c
+ * @brief Press to toggle task unit test
  */
 
 /* === Headers files inclusions =============================================================== */
 
-#include "bsp.h"
-#include "press.h"
+#include "common.h"
 #include "toggle.h"
+#include "mock_hal_gpio.h"
 
 /* === Macros definitions ====================================================================== */
 
@@ -43,37 +44,46 @@ SPDX-License-Identifier: MIT
 
 /* === Public variable definitions ============================================================= */
 
-/* === Private variable definitions ============================================================ */
+hal_gpio_bit_t test_led;
 
-static volatile bool new_tick = false;
+hal_gpio_bit_t test_key;
+
+/* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
 
-void TickEvent(void * object) {
-    *((bool *)object) = true;
-}
-
-void Sleep(uint32_t delay) {
-    uint32_t elapsed;
-
-    for (elapsed = 0; elapsed < delay; elapsed++) {
-        while (!new_tick) {
-            __asm("WFI");
-        }
-        new_tick = false;
-    }
-}
-
 /* === Public function implementation ========================================================= */
 
-int main(void) {
-    board_t board = BoardCreate();
-    TickStart(TickEvent, (void *)&new_tick, 1000);
-
-    while (true) {
-        Sleep(150);
-        PressLed(board->keys->left, board->leds->red);
-        ToggleLed(board->keys->right, board->leds->yellow);
-    }
+void setUp(void) {
+    // Simulate the key release to set the static variable to a known state
+    GpioGetState_IgnoreAndReturn(KEY_RELEASED);
+    ToggleLed(test_key, test_led);
 }
+
+void test_press_key_once_time(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+
+    ToggleLed(test_key, test_led);
+}
+
+void test_press_key_once_time_even_on_long_time_pressed(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+
+    CallInLoop(ToggleLed(test_key, test_led), 3);
+}
+
+void test_press_key_tow_times(void) {
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+    GpioGetState_ExpectAndReturn(test_key, KEY_RELEASED);
+    GpioGetState_ExpectAndReturn(test_key, KEY_PRESSED);
+    GpioBitToggle_Expect(test_led);
+
+    CallInLoop(ToggleLed(test_key, test_led), 3);
+}
+
 /* === End of documentation ==================================================================== */
