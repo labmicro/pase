@@ -73,8 +73,8 @@ def test_turn_led_off_green_led_on_second_key_press():
     execute(dut.key_rigth.set())
     sleep(0.2)
     execute(dut.key_rigth.clear())
+    sleep(0.2)
 
-    execute(dut.key_rigth.clear())
     execute(
         dut.wait(
             0,
