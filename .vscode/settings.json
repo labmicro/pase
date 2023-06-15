@@ -22,5 +22,8 @@
         "**/__pycache__": true,
         ".pytest_cache": true,
         ".coverage": true
+    },
+    "files.associations": {
+        "functional": "c"
     }
 }

@@ -34,3 +34,104 @@ https://embeddedartistry.com/blog/2019/02/25/unit-testing-and-reporting-on-a-bui
 ## Licencia
 
 Este proyecto se distribuye bajo los terminas de la licencia [MIT](https://spdx.org/licenses/MIT.html).
+
+@startuml
+skinparam componentStyle uml1
+
+[PREAT] --> Cliente
+
+Cliente ..> [Siru]: implementa
+frame "Computadora" {
+	[Siru]
+}
+
+[PREAT] --> Servidor
+frame "ATE"{
+	[Ruwaq]
+}
+
+Servidor ..> Ruwaq: implementa
+[Ruwaq] --> [Muju]
+
+frame "DUT"{
+	[PASE]
+}
+
+[PASE] --> [Muju]
+@enduml
+
+@startuml
+skinparam componentStyle uml1
+frame "Raspberry Pi" {
+frame "Docker" {
+  [Builder] <.. [Jenkins]
+  [Testing] <.. [Jenkins]
+  [Jenkins] ..> [Traefik]
+  [Jenkins] ..> [Portainer]
+
+}
+[Docker] -down-> [DietPi]
+}
+frame "ATE-EDU-CIAA-NXP" {
+  component "EDU-CIAA-NXP" as CA
+  component "Placa ATE" as AA
+  [CA] <--> [AA]
+}
+frame "DUT-EDU-CIAA-NXP" {
+  component "EDU-CIAA-NXP" as CB
+  component "Placa PASE" as PA
+  [PA] <--> [CB]
+}
+[AA] <--> [PA]
+
+frame "ATE-BLUE-PILL" {
+  component "EDU-CIAA-NXP" as BA
+  component "Placa ATE" as AB
+  [BA] <--> [AB]
+}
+frame "DUT-BLUE-PULL" {
+  component "BLUE-PILL" as BB
+  component "Placa PASE" as PB
+  [PB] <--> [BB]
+}
+[AB] <--> [PB]
+
+[CA] <-right-> [Raspberry Pi]
+[CB] <-right-> [Raspberry Pi]
+[Raspberry Pi] <-right-> [BA]
+[Raspberry Pi] <-right-> [BB]
+@enduml
+
+
+@startuml
+skinparam componentStyle uml1
+
+frame "ATE" {
+  frame "EDU-CIAA-NXP/BLUE-PILL" as BoardATE {
+    component "Muju" as MujuATE
+    [Ruwaq] --> [MujuATE]
+  }
+  component "Hardware" as HwATE
+  [MujuATE] --> [HwATE]
+}
+
+
+frame "DUT" {
+  frame "EDU-CIAA-NXP/BLUE-PILL" as BoardDUT {
+    component "Muju" as MujuDUT
+    [PASE] --> [MujuDUT]
+  }
+  component "Hardware" as HwDUT
+  [MujuDUT] --> [HwDUT]
+}
+
+
+frame "Raspberry Pi" {
+  frame "Jenkins" {
+    component "PASE" as PaseServer
+    [PaseServer] --> [SIRU]
+  }
+  component "Hardware" as HwDUT
+}
+
+@enduml
